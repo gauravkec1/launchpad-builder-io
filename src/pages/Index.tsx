@@ -1,9 +1,12 @@
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { GraduationCap, LogOut, User, Settings } from 'lucide-react';
+import { GraduationCap, LogOut, User } from 'lucide-react';
+import AdminDashboard from '@/components/dashboards/AdminDashboard';
+import TeacherDashboard from '@/components/dashboards/TeacherDashboard';
+import ParentDashboard from '@/components/dashboards/ParentDashboard';
+import StaffDashboard from '@/components/dashboards/StaffDashboard';
 
 const Index = () => {
   const { user, profile, signOut } = useAuth();
@@ -65,87 +68,11 @@ const Index = () => {
       </header>
 
       <main className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle className="text-2xl">
-                {getWelcomeMessage(profile?.role || '')}
-              </CardTitle>
-              <CardDescription>
-                {profile?.role === 'admin' && 'Manage your school operations, users, and communications.'}
-                {profile?.role === 'teacher' && 'Track attendance, manage assignments, and communicate with parents.'}
-                {profile?.role === 'parent' && 'Monitor your child\'s progress, communicate with teachers, and stay updated.'}
-                {profile?.role === 'staff' && 'Handle administrative tasks, fee collection, and school communications.'}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card>
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-lg">Quick Actions</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">
-                      Feature coming soon...
-                    </p>
-                  </CardContent>
-                </Card>
-                
-                <Card>
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-lg">Recent Activity</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">
-                      No recent activity
-                    </p>
-                  </CardContent>
-                </Card>
-                
-                <Card>
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-lg">Recent Activity</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">
-                      No new notifications
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Settings className="h-5 w-5" />
-                <span>Profile Information</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Name</label>
-                  <p className="text-base">{profile?.full_name || 'Not set'}</p>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Email</label>
-                  <p className="text-base">{profile?.email}</p>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Role</label>
-                  <p className="text-base capitalize">{profile?.role}</p>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Status</label>
-                  <Badge variant={profile?.is_active ? "default" : "destructive"}>
-                    {profile?.is_active ? 'Active' : 'Inactive'}
-                  </Badge>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        <div className="max-w-7xl mx-auto">
+          {profile?.role === 'admin' && <AdminDashboard />}
+          {profile?.role === 'teacher' && <TeacherDashboard />}
+          {profile?.role === 'parent' && <ParentDashboard />}
+          {profile?.role === 'staff' && <StaffDashboard />}
         </div>
       </main>
     </div>
